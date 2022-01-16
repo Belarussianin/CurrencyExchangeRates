@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Курсы валют</string>
+    <string name="settings">Настройки</string>
+    <string name="rates_settings">Настройка валют</string>
+    <string name="menu">Меню</string>
+    <string name="back">Назад</string>
+    <string name="complete">Готово</string>
+</resources>
