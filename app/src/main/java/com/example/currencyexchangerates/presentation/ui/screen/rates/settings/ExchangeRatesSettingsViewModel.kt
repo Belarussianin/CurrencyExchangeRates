@@ -16,8 +16,7 @@ import kotlinx.coroutines.launch
 
 class ExchangeRatesSettingsViewModel(
     private val saveCurrencyInCacheUseCase: SaveCurrencyInCacheUseCase,
-    private val getAllCurrenciesFromCacheUseCase: GetAllCurrenciesFromCacheUseCase,
-    private val savedStateHandle: SavedStateHandle
+    private val getAllCurrenciesFromCacheUseCase: GetAllCurrenciesFromCacheUseCase
 ) : ViewModel() {
 
     private val _currencySettingsListState =
@@ -30,11 +29,11 @@ class ExchangeRatesSettingsViewModel(
 
     private fun fetchDataFromCache() {
         viewModelScope.launch {
-            getAllCurrenciesFromCacheUseCase()
+            getAllCurrenciesFromCacheUseCase.execute()
                 .onEach {
                     _currencySettingsListState.value = UiState(
                         isLoading = false,
-                        data = it
+                        data = it.sortedBy { it.position }
                     )
                 }
                 .launchIn(viewModelScope)

@@ -5,7 +5,7 @@ import com.example.currencyexchangerates.domain.repository.CurrencyRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetAllCurrenciesFromCacheUseCase(private val repository: CurrencyRepository) {
-    suspend operator fun invoke(): Flow<List<CurrencyDbEntity>> {
+    suspend fun execute(): Flow<List<CurrencyDbEntity>> {
         return repository.getAllCurrenciesFromCache()
     }
 }

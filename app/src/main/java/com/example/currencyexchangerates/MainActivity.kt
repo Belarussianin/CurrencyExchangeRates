@@ -12,9 +12,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        
         setContent {
-            val viewModel = getViewModel<MainViewModel>()
             CurrencyExchangeRatesTheme {
                 DestinationsNavHost(NavGraphs.root)
             }

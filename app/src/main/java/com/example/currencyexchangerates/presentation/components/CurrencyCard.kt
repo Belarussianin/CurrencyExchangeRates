@@ -11,33 +11,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.currencyexchangerates.data.remote.dto.CurrencyDto
+import com.example.currencyexchangerates.domain.model.CurrencyDbEntity
 
 @Composable
 fun CurrencyCard(
-    currencyDto: CurrencyDto,
-    extraOfficialRate: List<Double>? = null,
+    currency: CurrencyDbEntity,
+    extraOfficialRate: Double? = null,
     modifier: Modifier = Modifier
 ) {
-    currencyDto.apply {
+    currency.apply {
         Card(
             modifier = modifier.padding(5.dp)
         ) {
             Row {
                 Column(
-                    modifier = Modifier.weight(2f)
+                    modifier = Modifier.weight(1.8f)
                 ) {
-                    Text(text = Cur_Abbreviation)
-                    Text(text = "$Cur_Scale $Cur_Name")
+                    Text(text = abbreviation)
+                    Text(text = "$scale $name")
                 }
                 Row(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(1.2f),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(text = "%.4f".format(Cur_OfficialRate))
+                    Text(text = "%.4f".format(rate))
                     if (extraOfficialRate != null) {
-                        for (extraRate in extraOfficialRate) {
-                            Text(text = "%.4f".format(extraRate))
-                        }
+                        Text(text = "%.4f".format(extraOfficialRate))
                     }
                 }
             }
@@ -48,5 +47,5 @@ fun CurrencyCard(
 @Preview
 @Composable
 fun PreviewGG() {
-    CurrencyCard(CurrencyDto("", 20, "", 4.2, 1, ""))
+    CurrencyCard(CurrencyDbEntity("", 20, "", 4.2, 1, true))
 }

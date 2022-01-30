@@ -4,17 +4,25 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import com.example.currencyexchangerates.MainViewModel
 import com.example.currencyexchangerates.R
 import com.example.currencyexchangerates.common.MenuAction
@@ -60,34 +68,32 @@ fun ExchangeRatesScreen(
     ) {
         val yesterdayDateState =
             viewModel.yesterdayDateState.collectAsState()
-        val yesterdayCurrencyListState =
-            viewModel.yesterdayCurrencyDtoListState.collectAsState()
         val todayDateState = viewModel.todayDateState.collectAsState()
-        val todayCurrencyListState = viewModel.todayCurrencyDtoListState.collectAsState()
+
+        val currencyListState = viewModel.outputCurrencyList.collectAsState()
+
         Column {
             TopAppBar {
-                Box(modifier = Modifier.weight(2f))
+                Box(modifier = Modifier.weight(1.7f))
                 Row(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(1.3f),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(text = yesterdayDateState.value)
-                    Text(text = todayDateState.value)
+                    Text(text = yesterdayDateState.value, maxLines = 1)
+                    Text(text = todayDateState.value, maxLines = 1)
                 }
             }
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                itemsIndexed(yesterdayCurrencyListState.value.data ?: listOf()) { index, currency ->
-                    CurrencyCard(
-                        currency,
-                        extraOfficialRate = todayCurrencyListState.value.data?.get(index)?.let {
-                            listOf(it.Cur_OfficialRate)
-                        },
-                        modifier = Modifier
-                            .wrapContentHeight()
-                            .fillMaxWidth()
-                    )
+            LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                items(currencyListState.value.data ?: listOf()) { item ->
+                    key(item) {
+                        CurrencyCard(
+                            item.first,
+                            extraOfficialRate = item.second,
+                            modifier = Modifier
+                                .wrapContentHeight()
+                                .fillMaxWidth()
+                        )
+                    }
                 }
             }
         }

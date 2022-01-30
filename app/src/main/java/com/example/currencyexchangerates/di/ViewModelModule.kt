@@ -7,6 +7,6 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel { params -> MainViewModel(get(), get(), get(), get(), params.get()) }
-    viewModel { params -> ExchangeRatesSettingsViewModel(get(), get(), params.get()) }
+    viewModel { MainViewModel(get(), get(), get(), get(), get()) }
+    viewModel { ExchangeRatesSettingsViewModel(get(), get()) }
 }
